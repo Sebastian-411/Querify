@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  react:
+    build:
+      context: ./querifyfrontend
+      dockerfile: Dockerfile
+    command: 'npm run start'
+    ports:
+      - 9000:9000
+    depends_on:
+      - springboot
+    environment:
+      - server=http://localhost:8080/
+
+  springboot:
+    container_name: querifybackend
+    image: querifybackend:1.0.0
+    build:
+      context: ./querifybackend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db:5432/postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - java_db
+
+  java_db:
+    container_name: java_db
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres

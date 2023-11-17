@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "querifyproject",
+  "private_key_id": "a63c94bb2d7f44836a87804bb4baab4ed2808806",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCyMOAw5cTeob72\ndgEuRfgQP+LlevpG/DbcFQS4i1deVNk/Xhl0O5vOtm02dNMR9zvvRdZGLzJe7VkT\ni3FDZc/pwJPJdQhltVLUIjMQqV6hUPH/mokAC0J+sYzBDgovSdqRcu1rD9EIzS2b\ng0gd+SsielKVUBnlOYG7k56o2XZNav9by27bjOLgkXWnwbpT91i+U0y0vPYDVswV\nHRq6wsuN1dHTmkBxKdV+9ZqPTg9EEwj9NhcAyuoBUpAhwN2UG8fl4Uwxe6GNXAwl\n/d5DNgEKfDMd7aTZM9Zp7eltrqNqdiCcSzb2k3K/QVcT4n32JntSpVdQsEWocjNL\n3as8LDRtAgMBAAECggEABVSZ+Ex/UaukA0pvaZt1OsM2fefqYcI8v+OvEvg0ImHG\nZ/NgLo5z8ECbzsO65rAvLk64BLx3tMhD4GZM+peqmxMEOMQT/rroYekt/uMaLhg2\nTQ+p5oLvt8uG6uWJH3YFoFFAUfIUrj85DIxmVWM1S6A+JTJSu/026M4XMnTi6Zjr\ncuRoCGwZkSy4tDmJABhTLvvFkg/Rpq1JO22aYH9hqex/jmZx4gpVmPq5DskKVXE7\nj4LJy+I6jhl47EOw+sHDaNkSMlSPUYd/8sjfHuA3PaMg2/uDKLi2Dn4pl2Cj84ac\noFWzeSdT4ocbzLJdVjSwz7oCvnWeW9oW2nfn3Ei+kQKBgQDvgA26Sj7ojdJm/JWl\ngndQUVdOPXNcMEnb4A+zT2wq+yvuIBkyU7INgR/GP5IulAsMnMfQogN9FhKJXTdN\njgQCUH3G+1H0x9Bz7idT5HlQyGnkPb8BMK5MiPOvQYsvsf2C4SundUq7aAWc+QOE\n+l9L7CPsvVuF4Oi5QEeIGBOByQKBgQC+d4plyRwZGp/+z3Eg0IspOd5YdOLfbGx3\n+zo3z2S1bPhvbxSjPPltlwceN9M8WzYlJpqhsA+kw4zvO4uOAa/PKqSbrxxWHvNG\n9fwHbrBmG8OBEZ+BnKfo6eS8a3BiqIhEB7r5fSGrBRmaZlL8045hjbPS2MBvaXYw\nhZQiuXcPhQKBgEfYlkWoOC7zPIcAhrPb64cAn7ws2wpwwfdfw9X6oWxTZN5OasCa\nMvOyJKIIOAYZCyeBcL+5mmpP0Me8Wva8/57iHpkuk2tm9bWRX+LeyzXcqUd67m2g\n+OikvNV6SBLKxk4Y1kup9/04O1bXrKKbqTLRaAWA2I/U5HuOOOcuscthAoGAOSAR\nWkXfL4hUxE/jVjw2AL9ieJVWFjymq7Wl2GdThTaRrJpcTjlTdhL+B4omyMtyieHy\nLtxnVLtx4a6yRH0tBa18gVUb4piVzoqodHI2Zemd0XA/rtgVZD4CZKC0rGJvvDe1\nVG67UlfNPgnCiiHJamjdrjdkQAYZdKQbse5+TyECgYEAxAQ9d0A7EjAAmXZ02Bak\n+Pz9oPsygQRYWE2a7oMP9Fe8myEncAjuCfSvVBHRMi9gfXmw2cnjLOBeX4kRWqMh\nicrJQLBTPytOqcYjHTekKbSezzqVqF/BnXFsHCmi8qtZovzyaVExUuXnk6MJN5eY\nsyhqPXcXGun5a4WjxWf9U0s=\n-----END PRIVATE KEY-----\n",
+  "client_email": "querify@querifyproject.iam.gserviceaccount.com",
+  "client_id": "113890202633974088760",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/querify%40querifyproject.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

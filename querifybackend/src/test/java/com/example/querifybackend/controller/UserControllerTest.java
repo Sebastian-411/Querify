@@ -1,0 +1,104 @@
+package com.example.querifybackend.controller;
+
+import com.example.querifybackend.repository.UserRepository;
+import com.example.querifybackend.model.User;
+import com.example.querifybackend.controller.UserController;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class UserControllerTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserController userController;
+
+    @Test
+    void getUsers_ShouldReturnListOfUsers() {
+        // Arrange
+        List<User> mockUsers = Arrays.asList(
+                new User(1L, "user1"),
+                new User(2L, "user2")
+        );
+        when(userRepository.findAll()).thenReturn(mockUsers);
+
+        // Act
+        ResponseEntity<List<User>> response = userController.getUsers();
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(mockUsers, response.getBody());
+    }
+
+    @Test
+    void saveUser_ShouldReturnSavedUser() {
+        // Arrange
+        User newUser = new User(2L, "newUser");
+        User savedUser = new User(1L, "newUser");
+        when(userRepository.save(newUser)).thenReturn(savedUser);
+
+        // Act
+        ResponseEntity<User> response = userController.saveUser(newUser);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(savedUser, response.getBody());
+    }
+
+    @Test
+    void getById_ExistingUser_ShouldReturnUser() {
+        // Arrange
+        Long userId = 1L;
+        User existingUser = new User(userId, "existingUser");
+        when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
+
+        // Act
+        ResponseEntity<User> response = userController.getById(userId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(existingUser, response.getBody());
+    }
+
+    @Test
+    void getById_NonExistingUser_ShouldReturnNotFound() {
+        // Arrange
+        Long userId = 1L;
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<User> response = userController.getById(userId);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertTrue(response.getBody() == null);
+    }
+
+    @Test
+    void deleteUserById_ShouldReturnNoContent() {
+        // Arrange
+        Long userId = 1L;
+
+        // Act
+        ResponseEntity<Void> response = userController.deleteUserById(userId);
+
+        // Assert
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        verify(userRepository, times(1)).deleteById(userId);
+    }
+}
