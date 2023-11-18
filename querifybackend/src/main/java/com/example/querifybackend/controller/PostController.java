@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller class for handling HTTP requests related to posts, likes, and comments.
+ */
+
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -27,15 +31,27 @@ public class PostController {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Retrieves all posts.
+     *
+     * @return ResponseEntity with the list of posts and HTTP status.
+     */
     @GetMapping()
     public ResponseEntity<List<Post>> getPosts() {
         List<Post> posts = postRepository.findAll();
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    /**
+     * Saves a new post associated with the specified user.
+     *
+     * @param post   The post to be saved.
+     * @param userId The ID of the user associated with the post.
+     * @return ResponseEntity with the saved post and HTTP status.
+     */
     @PostMapping("/{userId}")
     public ResponseEntity<Post> savePost(@RequestBody Post post, @PathVariable("userId") Long userId) {
-        // Verificamos si el usuario asociado al post existe
+        // Verifies if the user associated with the post exists
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             post.setUser(user.get());
@@ -46,6 +62,12 @@ public class PostController {
         }
     }
 
+    /**
+     * Retrieves a post by its ID.
+     *
+     * @param id The ID of the post to be retrieved.
+     * @return ResponseEntity with the retrieved post and HTTP status.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
         Optional<Post> post = postRepository.findById(id);
@@ -53,6 +75,13 @@ public class PostController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Updates an existing post by its ID.
+     *
+     * @param id          The ID of the post to be updated.
+     * @param updatedPost The updated post data.
+     * @return ResponseEntity with the updated post and HTTP status.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestBody Post updatedPost) {
         Optional<Post> existingPost = postRepository.findById(id);
@@ -77,13 +106,25 @@ public class PostController {
         }
     }
 
+    /**
+     * Deletes a post by its ID.
+     *
+     * @param id The ID of the post to be deleted.
+     * @return ResponseEntity with HTTP status.
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
         postRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
+    /**
+     * Adds a like to a post by a user.
+     *
+     * @param postId The ID of the post to be liked.
+     * @param userId The ID of the user giving the like.
+     * @return ResponseEntity with HTTP status.
+     */
     @PostMapping("/{postId}/like/{userId}")
     public ResponseEntity<Void> likePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) {
         User user = userRepository.findById(userId).orElse(null);
@@ -105,13 +146,21 @@ public class PostController {
                 userRepository.save(user);
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Usuario ya dio like
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // User already liked
             }
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Post no encontrado
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Post not found
         }
     }
 
+    /**
+     * Adds a comment to a post.
+     *
+     * @param postId The ID of the post to be commented on.
+     * @param userId The ID of the user commenting.
+     * @param text   The text of the comment.
+     * @return ResponseEntity with the saved comment and HTTP status.
+     */
 
     @PostMapping("/{postId}/comment")
     public ResponseEntity<Comment> addComment(
@@ -134,7 +183,7 @@ public class PostController {
             Comment savedComment = commentRepository.save(comment);
             return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Post o User no encontrado
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Post or User not found
         }
     }
 

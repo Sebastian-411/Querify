@@ -19,6 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the {@link UserController} class.
+ */
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
@@ -28,6 +31,9 @@ class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
+    /**
+     * Tests the retrieval of a list of users and verifies that the correct list is returned.
+     */
     @Test
     void getUsers_ShouldReturnListOfUsers() {
         // Arrange
@@ -45,6 +51,9 @@ class UserControllerTest {
         assertEquals(mockUsers, response.getBody());
     }
 
+    /**
+     * Tests saving a user and verifies that the correct saved user is returned.
+     */
     @Test
     void saveUser_ShouldReturnSavedUser() {
         // Arrange
@@ -60,6 +69,9 @@ class UserControllerTest {
         assertEquals(savedUser, response.getBody());
     }
 
+    /**
+     * Tests the retrieval of a user by ID with an existing user ID and verifies that the correct user is returned.
+     */
     @Test
     void getById_ExistingUser_ShouldReturnUser() {
         // Arrange
@@ -75,6 +87,9 @@ class UserControllerTest {
         assertEquals(existingUser, response.getBody());
     }
 
+    /**
+     * Tests the retrieval of a user by ID with a non-existing user ID and verifies that NotFound status is returned.
+     */
     @Test
     void getById_NonExistingUser_ShouldReturnNotFound() {
         // Arrange
@@ -89,6 +104,9 @@ class UserControllerTest {
         assertTrue(response.getBody() == null);
     }
 
+    /**
+     * Tests the deletion of a user by ID and verifies that NoContent status is returned.
+     */
     @Test
     void deleteUserById_ShouldReturnNoContent() {
         // Arrange

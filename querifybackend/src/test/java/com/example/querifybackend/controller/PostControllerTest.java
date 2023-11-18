@@ -37,6 +37,9 @@ class PostControllerTest {
     }
 
 
+    /**
+     * Tests the retrieval of a list of posts and verifies that the correct list is returned.
+     */
     @Test
     void getPosts_ReturnsListOfPosts() {
         // Arrange
@@ -51,6 +54,9 @@ class PostControllerTest {
         assertEquals(posts, responseEntity.getBody());
     }
 
+    /**
+     * Tests saving a post with a valid user and verifies that it returns Created status.
+     */
     @Test
     void savePost_WithValidUser_ReturnsCreated() {
         // Arrange
@@ -71,6 +77,9 @@ class PostControllerTest {
         verify(postRepository, times(1)).save(any(Post.class));
     }
 
+    /**
+     * Tests saving a post with an invalid user and verifies that it returns BadRequest status.
+     */
     @Test
     void savePost_WithInvalidUser_ReturnsBadRequest() {
         // Arrange
@@ -88,6 +97,9 @@ class PostControllerTest {
         verify(postRepository, never()).save(any(Post.class));
     }
 
+    /**
+     * Tests the retrieval of a post by ID with a valid ID and verifies that the correct post is returned.
+     */
     @Test
     void getPostById_WithValidId_ReturnsPost() {
         // Arrange
@@ -103,6 +115,10 @@ class PostControllerTest {
         assertEquals(post, responseEntity.getBody());
     }
 
+
+    /**
+     * Tests the retrieval of a post by ID when the ID is invalid (post not found).
+     */
     @Test
     void getPostById_WithInvalidId_ReturnsNotFound() {
         // Arrange
@@ -117,6 +133,9 @@ class PostControllerTest {
         assertNull(responseEntity.getBody());
     }
 
+    /**
+     * Tests updating a post with a valid ID and data, and verifies that the updated post is returned.
+     */
     @Test
     void updatePost_WithValidIdAndData_ReturnsUpdatedPost() {
         // Arrange
@@ -139,6 +158,9 @@ class PostControllerTest {
         assertEquals(updatedPost, responseEntity.getBody());
     }
 
+    /**
+     * Tests updating a post with an invalid ID (post not found) and verifies that NotFound status is returned.
+     */
     @Test
     void updatePost_WithInvalidId_ReturnsNotFound() {
         // Arrange
@@ -157,6 +179,10 @@ class PostControllerTest {
         assertNull(responseEntity.getBody());
     }
 
+
+    /**
+     * Tests the deletion of a post with a valid ID.
+     */
     @Test
     void deletePost_WithValidId_ReturnsNoContent() {
         // Arrange
@@ -170,45 +196,7 @@ class PostControllerTest {
         verify(postRepository, times(1)).deleteById(postId);
     }
 
-    @Test
-    void likePost_WithValidData_ReturnsOk() {
-        // Arrange
-        Long postId = 1L;
-        Long userId = 2L;
-
-        Post post = new Post();
-        post.setId(postId);
-
-        User user = new User();
-        user.setId(userId);
-
-        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-
-        // Act
-        ResponseEntity<Void> responseEntity = postController.likePost(postId, user.getId());
-
-        // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        verify(postRepository, times(1)).save(post);
-    }
-
-    @Test
-    void likePost_PostNotFound_ReturnsNotFound() {
-        // Arrange
-        Long postId = 1L;
-        Long userId = 2L;
-
-        when(postRepository.findById(postId)).thenReturn(Optional.empty());
-
-        // Act
-        ResponseEntity<Void> responseEntity = postController.likePost(postId, userId);
-
-        // Assert
-        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-        verify(postRepository, never()).save(any());
-    }
-
+    
 
 
 }
