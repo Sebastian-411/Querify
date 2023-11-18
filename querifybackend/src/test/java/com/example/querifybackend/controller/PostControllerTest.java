@@ -196,7 +196,7 @@ class PostControllerTest {
         verify(postRepository, times(1)).deleteById(postId);
     }
 
-    
+
 
 
 }

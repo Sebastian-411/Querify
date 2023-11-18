@@ -16,3 +16,4 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 querifybackend\src\main\resources\querifyproject-a63c94bb2d7f.json
+.vscode
