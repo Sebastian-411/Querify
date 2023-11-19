@@ -1,40 +1,124 @@
 package com.example.querifybackend.controller;
 
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.bigquery.*;
+import com.example.querifybackend.model.Query;
+import com.example.querifybackend.model.User;
+import com.example.querifybackend.repository.QueryRepository;
+import com.example.querifybackend.repository.UserRepository;
+import com.google.cloud.bigquery.TableResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
+/**
+ * Controller class for handling queries.
+ */
+@RestController
+@RequestMapping("/api/queries")
 public class QueryController {
-    public static void main(String[] args) throws InterruptedException, IOException {
-        String keyPath = "src/main/resources/querifyproject-a63c94bb2d7f.json";
 
-        GoogleCredentials credentials = GoogleCredentials.fromStream(Files.newInputStream(Paths.get(keyPath)));
+    @Autowired
+    private QueryRepository queryRepository;
 
-        BigQuery bigquery = BigQueryOptions.newBuilder().setCredentials(credentials).setProjectId("bigquery-public-data").build().getService();
-        String datasetName = "usfs_fia";
-        DatasetId datasetId = DatasetId.of(datasetName);
-        bigquery.listTables(datasetId).iterateAll().forEach(table -> {
-            // Recarga la tabla para asegurarte de que la información del esquema esté actualizada
-            table = table.reload();
+    @Autowired
+    private UserRepository userRepository;
 
-            System.out.println("Table ID: " + table.getTableId().getTable());
+    /**
+     * Endpoint to create a new query.
+     *
+     * @param query The query to be created.
+     * @return The created query.
+     */
+    @PostMapping
+    public ResponseEntity<Query> createQuery(@RequestBody Query query) {
+        if ( query.isEmpty() || query.getUser() == null ){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-            // Get the table schema
-            Schema schema = table.getDefinition().getSchema();
+        User user = userRepository.findById(query.getUser().getId()).orElse(null);
+        if ( user == null ){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-            // Check if the schema is not null
-            if (schema != null) {
-                // Print each field (column) in the schema
-                for (Field field : schema.getFields()) {
-                    System.out.println("" + field.getName());
-                }
-            } else {
-                System.out.println("No schema found for this table.");
+        query.setUser(user);
+        Query createdQuery = queryRepository.save(query);
+        return new ResponseEntity<>(createdQuery, HttpStatus.CREATED);
+    }
+
+
+    /**
+     * Endpoint to delete a query by its ID.
+     *
+     * @param queryId The ID of the query to be deleted.
+     * @return ResponseEntity with HTTP status indicating success or failure.
+     */
+    @DeleteMapping("/{queryId}")
+    public ResponseEntity<Void> deleteQuery(@PathVariable Long queryId) {
+        if ( queryRepository.existsById(queryId) ){
+            queryRepository.deleteById(queryId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Endpoint to update an existing query.
+     *
+     * @param queryId      The ID of the query to be updated.
+     * @param updatedQuery The updated query.
+     * @return The updated query.
+     */
+    @PutMapping("/{queryId}")
+    public ResponseEntity<Query> updateQuery(@PathVariable Long queryId, @RequestBody Query updatedQuery) {
+        if ( queryRepository.existsById(queryId) ){
+            updatedQuery.setId(queryId);
+            Query result = queryRepository.save(updatedQuery);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Endpoint to retrieve a query by its ID.
+     *
+     * @param queryId The ID of the query to be retrieved.
+     * @return The retrieved query.
+     */
+    @GetMapping("/{queryId}")
+    public ResponseEntity<Query> getQueryById(@PathVariable Long queryId) {
+        return queryRepository.findById(queryId)
+                .map(query -> new ResponseEntity<>(query, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    /**
+     * Endpoint to retrieve all queries.
+     *
+     * @return The list of all queries.
+     */
+    @GetMapping
+    public ResponseEntity<List<Query>> getAllQueries() {
+        List<Query> queries = queryRepository.findAll();
+        return new ResponseEntity<>(queries, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/execute/{queryId}")
+    public ResponseEntity<List<Map<String, Object>>> executeQuery(@PathVariable Long queryId) {
+        try {
+
+            Query query = queryRepository.findById(queryId).orElse(null);
+            if ( query == null ){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        });
-
+            return new ResponseEntity<>(query.execute(), HttpStatus.OK);
+        } catch (InterruptedException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

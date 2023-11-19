@@ -51,7 +51,6 @@ public class PostController {
      */
     @PostMapping("/{userId}")
     public ResponseEntity<Post> savePost(@RequestBody Post post, @PathVariable("userId") Long userId) {
-        // Verifies if the user associated with the post exists
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             post.setUser(user.get());
@@ -131,7 +130,7 @@ public class PostController {
         Optional<Post> optionalPost = postRepository.findById(postId);
 
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Usuario no encontrado
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         if (optionalPost.isPresent()) {
@@ -183,7 +182,7 @@ public class PostController {
             Comment savedComment = commentRepository.save(comment);
             return new ResponseEntity<>(savedComment, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Post or User not found
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

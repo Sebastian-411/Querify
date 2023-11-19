@@ -11,7 +11,7 @@ services:
     depends_on:
       - springboot
     environment:
-      - server=http://localhost:8080/
+      - server=http://querifybackend:8080/
 
   springboot:
     container_name: querifybackend
@@ -25,8 +25,14 @@ services:
       - DATABASE_URL=jdbc:postgresql://java_db:5432/postgres
       - DATABASE_USERNAME=postgres
       - DATABASE_PASSWORD=postgres
+      - GOOGLE_APPLICATION_CREDENTIALS=/run/secrets/querifyproject-credentials
+    secrets:
+      - querifyproject-credentials
     depends_on:
       - java_db
+    #volumes:
+    #  - ./path/on/host:/path/in/container
+
 
   java_db:
     container_name: java_db
@@ -37,3 +43,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    #volumes:
+    #  - ./postgres-data:/var/lib/postgresql/data
+
+secrets:
+  querifyproject-credentials:
+    file: ./querifybackend/src/main/resources/querifyproject-a63c94bb2d7f.json

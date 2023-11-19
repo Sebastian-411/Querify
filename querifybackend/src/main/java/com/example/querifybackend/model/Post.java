@@ -69,6 +69,16 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
+
+    /**
+     * The list of queries associated with the post.
+     */
+    @ManyToOne
+    @JoinColumn(name = "query_id")
+    private Query query;
+
+
+
     /**
      * Default constructor for the Post class.
      * Initializes the 'likes' count to 0.
@@ -228,6 +238,15 @@ public class Post {
      */
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
     }
 }
 
