@@ -33,9 +33,9 @@ public class Query {
     @JsonBackReference
     private User user;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "post_id")
-    private Post post;
+    private List<Post> post;
 
 
     public Query() {
@@ -94,11 +94,11 @@ public class Query {
         return bigquery.getData(getContent());
     }
 
-    public Post getPost() {
+    public List<Post> getPost() {
         return post;
     }
 
-    public void setPost(Post post) {
+    public void setPost(List<Post> post) {
         this.post = post;
     }
 }
