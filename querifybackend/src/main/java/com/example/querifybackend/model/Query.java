@@ -2,6 +2,7 @@ package com.example.querifybackend.model;
 
 import com.example.querifybackend.config.BigQueryConnection;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.bigquery.BigQueryException;
 import jakarta.persistence.*;
@@ -33,9 +34,8 @@ public class Query {
     @JsonBackReference
     private User user;
 
-    @OneToMany
-    @JoinColumn(name = "post_id")
-    private List<Post> post;
+
+
 
 
     public Query() {
@@ -94,11 +94,6 @@ public class Query {
         return bigquery.getData(getContent());
     }
 
-    public List<Post> getPost() {
-        return post;
-    }
 
-    public void setPost(List<Post> post) {
-        this.post = post;
-    }
+
 }

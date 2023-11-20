@@ -1,8 +1,11 @@
+import UserSessionProp from "@/hooks/UserSessionProp";
 
-
-export default function Home() {
+function index() {
   return (
-    <>
-    </>
-  )
+    <div>
+      <UserSessionProp />
+    </div>
+  );
 }
+
+export default index;

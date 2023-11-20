@@ -4,18 +4,17 @@ interface LoginProps {
   onLogin: (username: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const LoginProps: React.FC<LoginProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     onLogin(username);
   };
-  
 
   return (
     <div>
-      <h2>Iniciar sesión</h2>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <label>
           Usuario:
@@ -33,4 +32,4 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   );
 };
 
-export default Login;
+export default LoginProps;

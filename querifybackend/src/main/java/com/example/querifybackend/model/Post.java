@@ -36,6 +36,10 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+
+    @Column(name = "autorComment")
+    private String autorComment;
+
     /**
      * The user who created the post.
      */
@@ -73,6 +77,7 @@ public class Post {
     /**
      * The list of queries associated with the post.
      */
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "query_id")
     private Query query;
@@ -218,7 +223,7 @@ public class Post {
         if (this.likes == null) {
             this.likes = 0;
         }
-        this.likes++;
+        this.likes = likes + 1;
         this.likedByUsers.add(user);
     }
 
@@ -247,6 +252,14 @@ public class Post {
 
     public void setQuery(Query query) {
         this.query = query;
+    }
+
+    public String getAutorComment() {
+        return autorComment;
+    }
+
+    public void setAutorComment(String autorComment) {
+        this.autorComment = autorComment;
     }
 }
 

@@ -1,6 +1,7 @@
 package com.example.querifybackend.controller;
 
 import com.example.querifybackend.repository.UserRepository;
+import com.example.querifybackend.model.Post;
 import com.example.querifybackend.model.Query;
 import com.example.querifybackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -70,6 +72,19 @@ public class UserController {
             User user = userOptional.get();
             List<Query> queries = user.getQueries();
             return new ResponseEntity<>(queries, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{userId}/likePost")
+    public ResponseEntity<Set<Post>> getlikedPost(@PathVariable Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Set<Post> posts = user.getLikedPosts();
+            return new ResponseEntity<>(posts, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

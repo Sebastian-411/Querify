@@ -56,12 +56,16 @@ public class PostController {
      * @return ResponseEntity with the saved post and HTTP status.
      */
     @PostMapping("/{userId}/{queryId}")
-    public ResponseEntity<Post> savePost(@RequestBody Post post, @PathVariable("userId") Long userId, @PathVariable("queryId") Long queryId) {
+    public ResponseEntity<Post> savePost(@PathVariable("userId") Long userId, @PathVariable("queryId") Long queryId, @RequestParam("autorComment") String autorComment) {
         Optional<User> user = userRepository.findById(userId);
+        Post post = new Post();
         Optional<Query> query = queryRepository.findById(queryId);
         if (user.isPresent() && query.isPresent()) {
             post.setUser(user.get());
             post.setQuery(query.get());
+            post.setAutorComment(autorComment);
+            post.setTitle(query.get().getTitle());
+            post.setContent(query.get().getContent());
             Post savedPost = postRepository.save(post);
             return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
         } else {
@@ -138,7 +142,7 @@ public class PostController {
         Optional<Post> optionalPost = postRepository.findById(postId);
 
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         if (optionalPost.isPresent()) {
