@@ -26,7 +26,7 @@ public class User {
     /**
      * The username of the user.
      */
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
     private String user;
 
     /**
@@ -40,8 +40,6 @@ public class User {
     @JsonManagedReference
     @OneToMany(mappedBy = "user")
     private List<Query> queries;
-
-
 
     /**
      * Parameterized constructor for the User class.
@@ -132,12 +130,15 @@ public class User {
         this.likedPosts.add(post);
     }
 
-
     public List<Query> getQueries() {
         return queries;
     }
 
     public void setQueries(List<Query> queries) {
         this.queries = queries;
+    }
+
+    public void addQuery(Query query) {
+        this.queries.add(query);
     }
 }

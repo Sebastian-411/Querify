@@ -34,20 +34,20 @@ public class QueryController {
      */
     @PostMapping
     public ResponseEntity<Query> createQuery(@RequestBody Query query) {
-        if ( query.isEmpty() || query.getUser() == null ){
+        if (query.isEmpty() || query.getUser() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         User user = userRepository.findById(query.getUser().getId()).orElse(null);
-        if ( user == null ){
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         query.setUser(user);
+        user.addQuery(query);
         Query createdQuery = queryRepository.save(query);
         return new ResponseEntity<>(createdQuery, HttpStatus.CREATED);
     }
-
 
     /**
      * Endpoint to delete a query by its ID.
@@ -57,7 +57,7 @@ public class QueryController {
      */
     @DeleteMapping("/{queryId}")
     public ResponseEntity<Void> deleteQuery(@PathVariable Long queryId) {
-        if ( queryRepository.existsById(queryId) ){
+        if (queryRepository.existsById(queryId)) {
             queryRepository.deleteById(queryId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
@@ -74,7 +74,7 @@ public class QueryController {
      */
     @PutMapping("/{queryId}")
     public ResponseEntity<Query> updateQuery(@PathVariable Long queryId, @RequestBody Query updatedQuery) {
-        if ( queryRepository.existsById(queryId) ){
+        if (queryRepository.existsById(queryId)) {
             updatedQuery.setId(queryId);
             Query result = queryRepository.save(updatedQuery);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -107,13 +107,12 @@ public class QueryController {
         return new ResponseEntity<>(queries, HttpStatus.OK);
     }
 
-
     @GetMapping("/execute/{queryId}")
     public ResponseEntity<List<Map<String, Object>>> executeQuery(@PathVariable Long queryId) {
         try {
 
             Query query = queryRepository.findById(queryId).orElse(null);
-            if ( query == null ){
+            if (query == null) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(query.execute(), HttpStatus.OK);

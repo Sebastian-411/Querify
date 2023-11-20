@@ -1,6 +1,7 @@
 package com.example.querifybackend.controller;
 
 import com.example.querifybackend.repository.UserRepository;
+import com.example.querifybackend.model.Query;
 import com.example.querifybackend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,13 @@ public class UserController {
 
     @PostMapping()
     public ResponseEntity<User> saveUser(@RequestBody User user) {
-        User savedUser = userRepository.save(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        try {
+
+            User savedUser = userRepository.save(user);
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
@@ -41,4 +47,32 @@ public class UserController {
         userRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> getByUsername(@PathVariable("username") String username) {
+        Optional<User> user = userRepository.findByUser(username);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User loginUser) {
+        Optional<User> user = userRepository.findByUser(loginUser.getUser());
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+    }
+
+    @GetMapping("/{userId}/queries")
+    public ResponseEntity<List<Query>> getQueriesByUserId(@PathVariable Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            List<Query> queries = user.getQueries();
+            return new ResponseEntity<>(queries, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

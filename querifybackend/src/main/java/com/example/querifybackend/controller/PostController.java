@@ -1,8 +1,10 @@
 package com.example.querifybackend.controller;
 
+import com.example.querifybackend.model.Query;
 import com.example.querifybackend.model.Comment;
 import com.example.querifybackend.repository.CommentRepository;
 import com.example.querifybackend.repository.PostRepository;
+import com.example.querifybackend.repository.QueryRepository;
 import com.example.querifybackend.repository.UserRepository;
 import com.example.querifybackend.model.Post;
 import com.example.querifybackend.model.User;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 /**
  * Controller class for handling HTTP requests related to posts, likes, and comments.
@@ -30,6 +33,9 @@ public class PostController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private QueryRepository queryRepository;
 
     /**
      * Retrieves all posts.
@@ -49,11 +55,13 @@ public class PostController {
      * @param userId The ID of the user associated with the post.
      * @return ResponseEntity with the saved post and HTTP status.
      */
-    @PostMapping("/{userId}")
-    public ResponseEntity<Post> savePost(@RequestBody Post post, @PathVariable("userId") Long userId) {
+    @PostMapping("/{userId}/{queryId}")
+    public ResponseEntity<Post> savePost(@RequestBody Post post, @PathVariable("userId") Long userId, @PathVariable("queryId") Long queryId) {
         Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
+        Optional<Query> query = queryRepository.findById(queryId);
+        if (user.isPresent() && query.isPresent()) {
             post.setUser(user.get());
+            post.setQuery(query.get());
             Post savedPost = postRepository.save(post);
             return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
         } else {

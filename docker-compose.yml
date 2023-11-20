@@ -11,7 +11,10 @@ services:
     depends_on:
       - springboot
     environment:
-      - server=http://querifybackend:8080/
+      - SERVER=http://querifybackend:8080/
+    mem_limit: 2g   
+    storage_opt:
+      size: 2g
 
   springboot:
     container_name: querifybackend
@@ -30,6 +33,9 @@ services:
       - querifyproject-credentials
     depends_on:
       - java_db
+    mem_limit: 2g   
+    storage_opt:
+      size: 2g
     #volumes:
     #  - ./path/on/host:/path/in/container
 
@@ -43,6 +49,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+    mem_limit: 2g   
+    storage_opt:
+      size: 2g
     #volumes:
     #  - ./postgres-data:/var/lib/postgresql/data
 
