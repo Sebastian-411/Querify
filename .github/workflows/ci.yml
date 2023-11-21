@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Docker
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
+
+      - name: Build and Test Spring Boot App
+        run: |
+          cd querifybackend
+          docker build -t querifybackend:1.0.0 .
+          docker run --rm querifybackend:1.0.0 ./gradlew test
+
+      - name: Check Code Quality (example with SonarQube)
+        run: sonar-scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

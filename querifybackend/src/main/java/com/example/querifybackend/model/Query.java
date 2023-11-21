@@ -23,10 +23,10 @@ public class Query {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", length = 600, columnDefinition = "VARCHAR(600)")
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", length = 600, columnDefinition = "VARCHAR(600)")
     private String content;
 
     @ManyToOne

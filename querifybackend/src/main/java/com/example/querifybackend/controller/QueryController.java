@@ -120,4 +120,15 @@ public class QueryController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/execute")
+    public ResponseEntity<List<Map<String, Object>>> executeQuery(@RequestParam String queryString) {
+        Query query = new Query();
+        query.setContent(queryString);
+        try {
+            return new ResponseEntity<>(query.execute(), HttpStatus.OK);
+        } catch (InterruptedException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

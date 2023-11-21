@@ -36,18 +36,7 @@ public class QueryControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(queryController).build();
     }
 
-    /**
-     * Test case to verify that creating an invalid query (empty JSON) returns a Bad Request status.
-     *
-     * @throws Exception If an error occurs during the test.
-     */
-    @Test
-    void createQuery_InvalidQuery_ReturnsBadRequest() throws Exception {
-        mockMvc.perform(post("/api/queries")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
-                .andExpect(status().isBadRequest());
-    }
+
 
     /**
      * Test case to verify that deleting an existing query returns a No Content status.

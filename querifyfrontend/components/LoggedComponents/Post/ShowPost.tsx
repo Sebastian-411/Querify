@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Comment from "./Comment";
 import AddComment from "./AddComment";
+import QueryShow from "../Query/QueryShow";
 
 const ShowPosts = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -57,7 +58,7 @@ const ShowPosts = () => {
       {posts.map((post) => (
         <div key={post?.id}>
           <h3>{post?.title}</h3>
-          <p>{post?.content}</p>
+          <QueryShow query={post?.content} />
           <p>Likes: {post?.likes}</p>
           <button onClick={() => handleLike(post)}>Dar Like</button>
           <div>

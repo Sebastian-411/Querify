@@ -33,11 +33,11 @@ public class Post {
     /**
      * The content of the post.
      */
-    @Column(name = "content")
+    @Column(name = "content", length = 600, columnDefinition = "VARCHAR(600)")
     private String content;
 
 
-    @Column(name = "autorComment")
+    @Column(name = "autorComment", length = 600, columnDefinition = "VARCHAR(600)")
     private String autorComment;
 
     /**
