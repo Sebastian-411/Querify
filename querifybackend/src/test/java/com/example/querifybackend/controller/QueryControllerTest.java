@@ -34,12 +34,12 @@ public class QueryControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(queryController).build();
+
     }
 
-
-
     /**
-     * Test case to verify that deleting an existing query returns a No Content status.
+     * Test case to verify that deleting an existing query returns a No Content
+     * status.
      *
      * @throws Exception If an error occurs during the test.
      */
@@ -53,7 +53,8 @@ public class QueryControllerTest {
     }
 
     /**
-     * Test case to verify that deleting a non-existing query returns a Not Found status.
+     * Test case to verify that deleting a non-existing query returns a Not Found
+     * status.
      *
      * @throws Exception If an error occurs during the test.
      */
@@ -80,14 +81,15 @@ public class QueryControllerTest {
         when(queryRepository.save(any(Query.class))).thenReturn(updatedQuery);
 
         mockMvc.perform(put("/api/queries/{queryId}", queryId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(updatedQuery)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(updatedQuery)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(queryId));
     }
 
     /**
-     * Test case to verify that updating a non-existing query returns a Not Found status.
+     * Test case to verify that updating a non-existing query returns a Not Found
+     * status.
      *
      * @throws Exception If an error occurs during the test.
      */
@@ -97,13 +99,14 @@ public class QueryControllerTest {
         when(queryRepository.existsById(queryId)).thenReturn(false);
 
         mockMvc.perform(put("/api/queries/{queryId}", queryId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}")) // Send an invalid JSON
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{}")) // Send an invalid JSON
                 .andExpect(status().isNotFound());
     }
 
     /**
-     * Test case to verify that retrieving an existing query by ID returns an Ok status.
+     * Test case to verify that retrieving an existing query by ID returns an Ok
+     * status.
      *
      * @throws Exception If an error occurs during the test.
      */
@@ -120,7 +123,8 @@ public class QueryControllerTest {
     }
 
     /**
-     * Test case to verify that retrieving a non-existing query by ID returns a Not Found status.
+     * Test case to verify that retrieving a non-existing query by ID returns a Not
+     * Found status.
      *
      * @throws Exception If an error occurs during the test.
      */
@@ -147,6 +151,5 @@ public class QueryControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$").isEmpty());
     }
-
 
 }
