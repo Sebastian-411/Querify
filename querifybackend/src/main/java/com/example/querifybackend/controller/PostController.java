@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 /**
- * Controller class for handling HTTP requests related to posts, likes, and comments.
+ * Controller class for handling HTTP requests related to posts, likes, and
+ * comments.
  */
 
 @RestController
@@ -56,7 +56,8 @@ public class PostController {
      * @return ResponseEntity with the saved post and HTTP status.
      */
     @PostMapping("/{userId}/{queryId}")
-    public ResponseEntity<Post> savePost(@PathVariable("userId") Long userId, @PathVariable("queryId") Long queryId, @RequestParam("autorComment") String autorComment) {
+    public ResponseEntity<Post> savePost(@PathVariable("userId") Long userId, @PathVariable("queryId") Long queryId,
+            @RequestParam("autorComment") String autorComment) {
         Optional<User> user = userRepository.findById(userId);
         Post post = new Post();
         Optional<Query> query = queryRepository.findById(queryId);
@@ -71,19 +72,6 @@ public class PostController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
-
-    /**
-     * Retrieves a post by its ID.
-     *
-     * @param id The ID of the post to be retrieved.
-     * @return ResponseEntity with the retrieved post and HTTP status.
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
-        Optional<Post> post = postRepository.findById(id);
-        return post.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -127,6 +115,19 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable("id") Long id) {
         postRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * Retrieves a post by its ID.
+     *
+     * @param id The ID of the post to be retrieved.
+     * @return ResponseEntity with the retrieved post and HTTP status.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<Post> getPostById(@PathVariable("id") Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return post.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -197,7 +198,5 @@ public class PostController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
 
 }
