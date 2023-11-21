@@ -126,7 +126,7 @@ const QueryConstructor: React.FC<QueryConstructorProps> = ({
   return (
     <>
       <form onSubmit={handleCreateQuery}>
-        <div>
+        <div style={{ width: "600px" }}>
           <h3>Query Constructor</h3>
           {/* Input for the query title */}
           <label>
@@ -156,6 +156,7 @@ const QueryConstructor: React.FC<QueryConstructorProps> = ({
             <select
               value={selectedSpeciesGroup}
               onChange={(e) => setSelectedSpeciesGroup(e.target.value)}
+              style={{ width: "600px" }}
             >
               <option value="">All</option>
               {treeTypes.map((treeType) => (
@@ -172,6 +173,7 @@ const QueryConstructor: React.FC<QueryConstructorProps> = ({
           <div>
             <label>Tree Status:</label>
             <select
+              style={{ width: "600px" }}
               value={selectedTreeStatus}
               onChange={(e) => setSelectedTreeStatus(e.target.value)}
             >

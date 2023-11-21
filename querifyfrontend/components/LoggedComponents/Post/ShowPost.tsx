@@ -31,6 +31,7 @@ const ShowPosts = () => {
         `http://localhost:8080/api/posts/${post?.id}/like/${user?.id}`
       );
       console.log(`Diste like al post ${post}`);
+      window.location.reload();
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         alert("Ya le diste like! :)");
@@ -50,6 +51,7 @@ const ShowPosts = () => {
     } catch (error: any) {
       console.error("Error al comentar:", error);
     }
+    window.location.reload();
   };
 
   return (
@@ -60,7 +62,13 @@ const ShowPosts = () => {
           <h3>{post?.title}</h3>
           <QueryShow query={post?.content} />
           <p>Likes: {post?.likes}</p>
-          <button onClick={() => handleLike(post)}>Dar Like</button>
+          <button
+            onClick={() => {
+              handleLike(post);
+            }}
+          >
+            Dar Like
+          </button>
           <div>
             <h4>Comentarios:</h4>
             {post?.comments.map((comment: any) => (

@@ -32,6 +32,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ queries, onCreatePost }) => {
     // Limpiar los campos después de crear el post
     setContent("");
     setSelectedQuery("");
+    window.location.reload();
   };
 
   return (

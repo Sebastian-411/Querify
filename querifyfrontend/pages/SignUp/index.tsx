@@ -25,7 +25,9 @@ function index() {
       // Redirect to the main page only if the login was successful
       router.push("/");
     } catch (error: any) {
-      console.log(error); // Handle errors by logging them to the console
+      if (error.response && error.response.status === 401) {
+        alert("El usuario no se encuentra registrado");
+      }
     }
   };
 

@@ -3,15 +3,16 @@ import LogOut from "@/components/LoggedComponents/LogOut";
 import QueryLayout from "@/components/LoggedComponents/Query/QueryLayout";
 import CreateQuery from "@/components/LoggedComponents/Query/QueryProps";
 import React, { useEffect, useState } from "react";
-import router from "next/router";
 import CreatePost from "@/components/LoggedComponents/Post/CreatePosts";
 import ShowPosts from "@/components/LoggedComponents/Post/ShowPost";
+import { useRouter } from "next/dist/client/router";
 
 // Define the component for the user session properties
 function UserSessionProp() {
   // State variables to track login status and user information
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState<any>();
+  const router = useRouter();
 
   // Effect to check and update login status and user information
   useEffect(() => {
