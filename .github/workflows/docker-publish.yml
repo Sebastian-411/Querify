@@ -1,0 +1,26 @@
+name: Publish Docker image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      # Se recomienda usar el mismo usuario y versión de Docker Compose que en tu máquina local
+      - name: Set up Docker Compose
+        uses: docker/compose-cli@v1
+        with:
+          version: '1.29.2'
+
+      # Construir y publicar la imagen usando Docker Compose
+      - name: Build and push Docker image
+        run: docker-compose build && docker-compose push
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
