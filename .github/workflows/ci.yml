@@ -13,18 +13,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Up Docker
-        uses: actions/setup-node@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v2
         with:
-          node-version: "14"
+          distribution: "adopt"
+          java-version: "11"
 
-      - name: Build and Test Spring Boot App
-        run: |
-          cd querifybackend
-          docker build -t querifybackend:1.0.0 .
-          docker run --rm querifybackend:1.0.0 ./gradlew test
+      - name: Build with Maven
+        run: mvn -B package --file ./querifybackend/pom.xml
 
-      - name: Check Code Quality (example with SonarQube)
-        run: sonar-scanner
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Run Tests
+        run: mvn test --file ./querifybackend/pom.xml
