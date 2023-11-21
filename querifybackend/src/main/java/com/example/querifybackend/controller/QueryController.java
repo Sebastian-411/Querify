@@ -49,6 +49,11 @@ public class QueryController {
         return new ResponseEntity<>(createdQuery, HttpStatus.CREATED);
     }
 
+
+
+
+
+
     /**
      * Endpoint to delete a query by its ID.
      *

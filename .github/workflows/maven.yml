@@ -30,3 +30,6 @@ jobs:
         run: mvn -B package --file ./querifybackend/pom.xml
       - name: Run Tests
         run: mvn -B test --file ./querifybackend/pom.xml
+
+
+        
