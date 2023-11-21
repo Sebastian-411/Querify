@@ -34,10 +34,6 @@ public class Query {
     @JsonBackReference
     private User user;
 
-
-
-
-
     public Query() {
     }
 
@@ -48,14 +44,6 @@ public class Query {
     }
 
     // Getters y setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -73,6 +61,14 @@ public class Query {
         this.content = content;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public User getUser() {
         return user;
     }
@@ -88,12 +84,9 @@ public class Query {
                 user == null;
     }
 
-
     public List<Map<String, Object>> execute() throws InterruptedException {
         BigQueryConnection bigquery = BigQueryConnection.getInstance();
         return bigquery.getData(getContent());
     }
-
-
 
 }

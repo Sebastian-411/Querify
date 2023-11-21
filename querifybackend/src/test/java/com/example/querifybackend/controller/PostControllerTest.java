@@ -37,9 +37,9 @@ class PostControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-
     /**
-     * Tests the retrieval of a list of posts and verifies that the correct list is returned.
+     * Tests the retrieval of a list of posts and verifies that the correct list is
+     * returned.
      */
     @Test
     void getPosts_ReturnsListOfPosts() {
@@ -56,7 +56,8 @@ class PostControllerTest {
     }
 
     /**
-     * Tests the retrieval of a post by ID with a valid ID and verifies that the correct post is returned.
+     * Tests the retrieval of a post by ID with a valid ID and verifies that the
+     * correct post is returned.
      */
     @Test
     void getPostById_WithValidId_ReturnsPost() {
@@ -72,7 +73,6 @@ class PostControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(post, responseEntity.getBody());
     }
-
 
     /**
      * Tests the retrieval of a post by ID when the ID is invalid (post not found).
@@ -92,7 +92,8 @@ class PostControllerTest {
     }
 
     /**
-     * Tests updating a post with a valid ID and data, and verifies that the updated post is returned.
+     * Tests updating a post with a valid ID and data, and verifies that the updated
+     * post is returned.
      */
     @Test
     void updatePost_WithValidIdAndData_ReturnsUpdatedPost() {
@@ -117,7 +118,8 @@ class PostControllerTest {
     }
 
     /**
-     * Tests updating a post with an invalid ID (post not found) and verifies that NotFound status is returned.
+     * Tests updating a post with an invalid ID (post not found) and verifies that
+     * NotFound status is returned.
      */
     @Test
     void updatePost_WithInvalidId_ReturnsNotFound() {
@@ -137,7 +139,6 @@ class PostControllerTest {
         assertNull(responseEntity.getBody());
     }
 
-
     /**
      * Tests the deletion of a post with a valid ID.
      */
@@ -153,8 +154,5 @@ class PostControllerTest {
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
         verify(postRepository, times(1)).deleteById(postId);
     }
-
-
-
 
 }
