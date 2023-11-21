@@ -14,7 +14,7 @@ Make sure you have Docker and Docker Compose installed on your machine before yo
 `````bash
 git clone https://github.com/tu_usuario/tu_proyecto.git
 cd your_project
-```
+`````
 
 ## Environment Configuration
 
@@ -33,7 +33,7 @@ Run the following command to raise the containers:
 
 ````bash
 docker-compose up
-```
+`````
 
 This will start the backend, frontend and database.
 
@@ -51,4 +51,4 @@ Enjoy using the application!
 
 # Do you wanna know more?
 explanatory video https://youtu.be/0tA5D5o4SsU
-`````
+
